@@ -1,19 +1,11 @@
-import express from "express";
-import http from "http";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
-import { Server } from "socket.io";
+const path = require('path')
+const express = require('express')
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const app = express()
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-app.get("/", (req, res) => res.sendFile(join(__dirname, "index.html")));
+app.use(express.static(path.join(__dirname, 'public')))
 
-io.on('connection', () => (
-    console.log('Connected to server')
+const PORT = 3000
+app.listen(PORT, () => (
+    console.log(`Server listening on port: ${PORT}`)
 ))
-
-const PORT = 3000;
-server.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
