@@ -11,5 +11,9 @@ const io = new Server(server);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.get("/", (req, res) => res.sendFile(join(__dirname, "index.html")));
 
+io.on('connection', () => (
+    console.log('Connected to server')
+))
+
 const PORT = 3000;
 server.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
