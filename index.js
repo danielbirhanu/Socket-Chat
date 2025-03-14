@@ -1,11 +1,29 @@
-const path = require('path')
-const express = require('express')
+const path = require("path");
+const http = require("http");
+const express = require("express");
+const socketio = require("socket.io");
 
-const app = express()
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
-const PORT = 3000
-app.listen(PORT, () => (
-    console.log(`Server listening on port: ${PORT}`)
-))
+io.on("connection", (socket) => {
+  console.log("New connection");
+
+  socket.emit('message', 'Welcome to Chat')
+
+  socket.broadcast.emit('message', 'A user has joined the chat')
+
+  socket.on('disconnect', () => {
+    io.emit('message', 'A user has left the chat')
+  })
+
+  socket.on('chatMessage', (msg) => {
+    io.emit('message', msg)
+  })
+});
+
+const PORT = 3000;
+server.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
