@@ -1,5 +1,7 @@
 const chatForm = document.getElementById("chat-form");
 const chatMessage = document.querySelector(".chat-messages");
+const rootName = document.getElementById('room-name')
+const userList = document.getElementById('users')
 
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -43,5 +45,11 @@ function outPutMessage(message) {
 }
 
 function outputRoomName(room){
-  
+  rootName.innerText = room
+}
+
+function outputUsers(users){
+  userList.innerHTML = `
+    ${users.map(user => `<li>${user.username}</li>`).join()}
+  `
 }
