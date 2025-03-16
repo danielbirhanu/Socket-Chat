@@ -50,6 +50,6 @@ function outputRoomName(room){
 
 function outputUsers(users){
   userList.innerHTML = `
-    ${users.map(user => `<li>${user.username}</li>`).join()}
+    ${users.map(user => `<li>${user.username}</li>`).join('')}
   `
 }
